@@ -16,10 +16,14 @@ AI code agents are confidently wrong at a terrifying rate. They'll propose a
 fix, tests will pass, and the fix will be completely wrong — addressing a
 symptom while the root cause lurks underneath.
 
-The rubber duck solves this by requiring **forced articulation**: the agent
-must explain what the code does, line by line, to an impartial duck. Bugs
-hide in the gap between what you *think* the code does and what it *actually*
-does. The duck finds that gap.
+The rubber duck solves this by requiring **forced self-explanation**: the agent
+must explain what the code does, line by line, to a silent plastic duck that
+offers nothing back. The duck doesn't ask questions, give feedback, or suggest
+fixes. The agent does all the talking. Bugs reveal themselves mid-explanation,
+because what the agent is *about to say* contradicts what the code *actually does*.
+
+This is how rubber duck debugging has always worked — the power is in the
+explanation, not the response.
 
 ## What's Included
 
@@ -33,7 +37,7 @@ does. The duck finds that gap.
 
 | Agent | Description |
 |-------|-------------|
-| `rubber-ducky` | The rubber duck itself. Asks probing questions, rejects hand-waving, and doesn't approve pushing until the developer can fully explain their fix. |
+| `rubber-ducky` | The rubber duck itself — a silent audience. It doesn't ask questions, suggest fixes, or give feedback. It just sits there while the agent explains. That's the whole method. |
 
 ## Installation
 
@@ -104,34 +108,41 @@ Ask the @rubber-ducky agent to review my debug patch
 
 ### Output
 
-Every rubber duck session produces a structured report:
+Every rubber duck session produces a structured report — the agent's own
+explanation to the silent duck:
 
 ```
 🦆 RUBBER DUCK SESSION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📋 THE PROBLEM
+📋 THE PROBLEM (Quack 1)
+  "Duck, here's what's going on..."
   Expected: user token refreshes silently
   Actual:   401 on every refresh attempt
   Evidence: test_token_refresh fails, logs show expired comparison
 
-🔍 CODE WALKTHROUGH
+🔍 CODE WALKTHROUGH (Quack 2)
+  "Let me walk you through this, line by line..."
   Line 42: getToken() returns encoded JWT string ✓
   Line 43: isExpired(token) compares token.exp... ← WAIT
            token is still encoded here. token.exp is undefined.
            isExpired returns true for every token.
 
-💡 THE QUACK POINT
+💡 THE QUACK POINT (Quack 3)
+  "Wait — I just said token.exp but... it's still encoded."
   Discrepancy: isExpired() receives encoded string, expects decoded object
   False assumption: getToken() returns decoded token
   Root cause: missing decode step between get and validate
 
-🔧 THE FIX
+🔧 THE FIX (Quack 4)
+  "Here's what I'm going to change, duck..."
   Change: Add jwt.decode(token) before passing to isExpired()
   Why: isExpired needs the decoded payload to read .exp field
   Side effects: None — decode is read-only, callers receive same token
+  Not changing: getToken() itself — it correctly returns raw JWT
 
-✅ VERIFICATION
+✅ VERIFICATION (Quack 5)
+  "Let me walk through it again with the fix..."
   Re-walked: getToken() → decode() → isExpired(decoded) → .exp exists ✓
   Tests: test_token_refresh passes, all 47 auth tests pass
   Confidence: 🦆🦆🦆🦆🦆 — root cause identified and verified
@@ -154,15 +165,21 @@ NO CODE GETS PUSHED UNTIL YOU'VE EXPLAINED IT TO THE DUCK.
 
 ## The Science
 
-Rubber duck debugging exploits a cognitive phenomenon: **explaining forces
-understanding**. When you explain code to an external entity, your brain
-switches from "recognition mode" (skimming, assuming) to "generation mode"
-(constructing, verifying, proving). Bugs hide in the gap between recognition
-and generation.
+Rubber duck debugging exploits a cognitive phenomenon: **self-explanation to a
+silent audience forces understanding**. When you explain code to something that
+offers nothing back, your brain switches from "recognition mode" (skimming,
+assuming) to "generation mode" (constructing, verifying, proving). Bugs hide in
+the gap between recognition and generation.
 
-For AI agents, this translates to: forcing step-by-step articulation catches
-the "confidently wrong" failure mode where an agent proposes a plausible fix
-that doesn't address the actual root cause.
+The duck's silence is the feature, not a limitation:
+
+| Mechanism | Why silence works |
+|-----------|------------------|
+| **Self-explanation effect** | YOU generate the insight, not the listener |
+| **Cognitive offloading** | Externalizing logic frees working memory |
+| **Psychological distance** | Addressing an "other" activates analytical mode |
+| **No interruption** | The duck can't derail your train of thought |
+| **No premature answers** | A human would guess; the duck makes you finish thinking |
 
 ## References
 

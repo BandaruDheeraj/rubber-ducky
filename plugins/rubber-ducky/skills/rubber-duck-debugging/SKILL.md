@@ -2,9 +2,9 @@
 name: rubber-duck-debugging
 description: >
   Use BEFORE pushing any code fix, debug patch, or behavioral change. Forces the agent to
-  explain the code step-by-step to a rubber duck, exposing logical gaps, false assumptions,
-  and misunderstandings before they reach production. Based on the classic rubber duck
-  debugging method from The Pragmatic Programmer.
+  explain the code step-by-step to a silent rubber duck, exposing logical gaps, false
+  assumptions, and misunderstandings through the act of self-explanation alone — no feedback
+  needed. Based on the classic rubber duck debugging method from The Pragmatic Programmer.
 ---
 
 # Rubber Duck Debugging 🦆
@@ -16,6 +16,15 @@ description: >
 > what you are actually doing."
 >
 > — *The Pragmatic Programmer* (1999)
+
+The duck is **silent**. It does not ask questions. It does not give feedback.
+It does not suggest fixes. It sits there. You do all the talking.
+
+The power is in the **act of explaining** — not in receiving a response.
+When you force yourself to articulate what code does, step by step, to an
+audience that offers nothing back, you switch from skimming to scrutinizing.
+Bugs reveal themselves mid-sentence, because what you're *about to say*
+contradicts what the code *actually does*.
 
 ## The Iron Rule
 
@@ -48,154 +57,183 @@ cannot commit, push, or declare the task done. No exceptions.
 - Adding new code that doesn't modify existing behavior
 - The change was already rubber-ducked in a prior pass this session
 
-## The Five Quacks (Process)
+## The Five Quacks
 
-### 🦆 Quack 1: Set the Scene
+The duck sits on the desk. You talk. It listens. That's it.
 
-Before looking at the bug or code, state clearly:
+Each Quack is a phase of self-explanation. You must complete all five,
+in order, talking to the duck the entire time. The duck never responds —
+you catch your own mistakes by hearing yourself explain.
 
-1. **What is this code supposed to do?** (the intent, not the implementation)
-2. **What is it actually doing instead?** (the observed behavior)
-3. **How do you know?** (error message, test failure, user report, log output)
+### 🦆 Quack 1: Tell the Duck What's Wrong
 
-```
-DUCK CHECKPOINT: Can you state the gap between intent and behavior
-in one sentence? If not, you don't understand the problem yet.
-```
+Talk to the duck. Explain:
 
-### 🦆 Quack 2: Walk the Code Path
+1. **What this code is supposed to do** — the intent, in plain language
+2. **What it's actually doing instead** — the observed behavior
+3. **How you know** — the error message, test failure, log output, or user report
 
-Trace the execution path **out loud** (in your response), line by line:
+State the gap between intent and reality in one sentence. If you can't
+form that sentence, you don't understand the problem yet — keep explaining
+until you can.
 
-1. **Start at the entry point** — where does execution begin for this scenario?
-2. **Follow every branch** — which `if/else/switch/match` path is taken and WHY?
-3. **State what each variable holds** — not what you *think* it holds, what the
-   code actually computes. Check types, defaults, edge cases.
-4. **Cross every boundary** — function calls, API calls, async boundaries,
-   module imports. Don't assume — trace.
+*The duck says nothing. It just looks at you with its plastic eyes.*
 
-**At each step, say TWO things:**
-- "This line is *supposed to* do X"
-- "This line *actually does* Y"
+### 🦆 Quack 2: Walk the Duck Through the Code
 
-If X ≠ Y at any point, you've found a discrepancy. **Stop and investigate.**
+Now trace the execution path, line by line, explaining to the duck as you go.
+The duck knows nothing about your codebase — explain everything:
 
-```
-DUCK CHECKPOINT: Did you trace every line between entry and the bug?
-If you skipped a section thinking "that part's fine" — go back.
-The duck doesn't allow hand-waving.
-```
+1. **Start at the entry point** — "Okay duck, execution starts here..."
+2. **At each line, say what it's supposed to do** — then check if it actually
+   does that. State both. "This line is supposed to do X. It actually does... Y."
+3. **At every function call** — trace into it. Don't say "this calls doThing()
+   and it works." Explain what doThing() actually returns and why.
+4. **At every conditional** — state which branch is taken and why.
+5. **At every variable** — state what value it holds at this point. Not what
+   you think it holds — what the code actually computes.
+6. **At every boundary** — function calls, API calls, async gaps, module
+   imports. These are where assumptions break. Trace across them.
 
-### 🦆 Quack 3: Catch the Discrepancy
+**Do not hand-wave.** If you catch yourself saying "this part's fine" or
+"that obviously works" — that's the part the duck wants to hear about.
+Explain it anyway. The bug is almost always in the part you want to skip.
 
-When X ≠ Y, you've found the **quack point**. Now answer:
+*The duck says nothing. You keep talking.*
 
-1. **What did you assume was true that isn't?** (the false assumption)
-2. **Why did you assume that?** (naming? similar pattern? incomplete reading?)
-3. **What is actually true?** (prove it — show the evidence)
-4. **Is this the root cause, or a symptom of something deeper?**
+### 🦆 Quack 3: The Quack Point
 
-```
-DUCK CHECKPOINT: Can you explain the root cause to someone who has
-never seen this code? If your explanation requires "it's complicated"
-or "it just works that way" — you haven't found root cause yet.
-```
+At some point during Quack 2, you will say something like "and then this
+line does X—" and realize, mid-sentence, that it doesn't do X at all.
 
-### 🦆 Quack 4: Explain the Fix
+**That's the quack point.** The moment your explanation diverges from reality.
 
-Before writing ANY fix:
+When you catch it, tell the duck:
 
-1. **State the fix in plain English** — what will change and why
-2. **Explain why this fixes the root cause** — not the symptom
-3. **List what else this change affects** — side effects, callers, tests,
+1. **What you assumed was true** — the false assumption
+2. **Why you assumed it** — misleading name? similar pattern? didn't read closely?
+3. **What's actually true** — prove it with evidence from the code
+4. **Whether this is root cause or symptom** — if it's a symptom, keep
+   walking the code until you find the real source
+
+If you finish Quack 2 without finding a discrepancy, you either:
+- Skipped a section (go back and explain it properly), or
+- Need to explain at a finer level of detail
+
+The bug is in the explanation gap. Always.
+
+*The duck says nothing. But you just found the bug.*
+
+### 🦆 Quack 4: Explain the Fix to the Duck
+
+Before writing ANY code, explain to the duck what you're going to change:
+
+1. **The fix, in plain English** — what will change and why
+2. **Why this fixes the root cause** — connect it directly to the quack point
+3. **What else this change touches** — callers, tests, side effects,
    downstream consumers
-4. **State what you are NOT changing** and why those don't need changing
+4. **What you are NOT changing** — and why those are safe to leave alone
 
-```
-DUCK CHECKPOINT: Could someone implement your fix from just your
-English description, without seeing the code? If not, your
-understanding is incomplete.
-```
+Test: could someone implement your fix from just this English description,
+without seeing the code? If not, your understanding has holes — keep
+explaining to the duck until it's airtight.
 
-### 🦆 Quack 5: Verify to the Duck
+*The duck says nothing. You now know exactly what to do.*
 
-After implementing the fix:
+### 🦆 Quack 5: Show the Duck It Works
 
-1. **Re-walk the code path** from Quack 2 with the fix applied
-2. **Confirm X = Y** at every step now
+After implementing the fix, walk the duck through the code path one more time:
+
+1. **Re-trace from Quack 2** — same path, with the fix in place
+2. **At the quack point** — confirm the discrepancy is gone. X = Y now.
 3. **Run the tests** — does the failing test pass? Do other tests still pass?
 4. **Check for regression** — did the fix break anything adjacent?
-5. **State your confidence level**: "I am [confident/somewhat confident/uncertain]
-   because [reason]"
+5. **State your confidence to the duck** — "Duck, I am [confident / somewhat
+   confident / uncertain] this is correct, because [reason]."
 
-```
-DUCK CHECKPOINT: The duck asks — "Are you sure?" Walk through one
-more time. If you're still confident, you may push.
-```
+If you're confident: the duck session is complete. Approved to push.
 
-## The Duck's Questions
+If you're uncertain: go back to the quack where doubt crept in and
+explain again. The duck has all day.
 
-When acting as the rubber duck, ask these probing questions at each phase:
+*The duck says nothing. It never does. But you got it right.*
 
-| Phase | Duck asks... |
-|-------|-------------|
-| **Scene** | "What makes you think X is the expected behavior?" |
-| **Walk** | "What happens if that value is null/empty/negative/huge?" |
-| **Walk** | "You said 'this calls Y' — have you verified Y does what you think?" |
-| **Catch** | "Is that the only place this assumption is made?" |
-| **Catch** | "What changed between when this worked and when it broke?" |
-| **Fix** | "How do you know this won't break [related feature]?" |
-| **Fix** | "What's the simplest possible fix? Is yours simpler?" |
-| **Verify** | "If you revert your fix, does the original bug return?" |
+## Self-Explanation Checks
 
-## Anti-Patterns (The Duck Rejects These)
+At each quack, hold yourself to these standards. The duck won't catch you
+cheating — but your code will:
 
-| Pattern | Why the Duck says NO 🦆 |
-|---------|------------------------|
-| "I think the fix is..." (without Quack 1-3) | Guessing isn't debugging |
-| "Let me try changing X and see if it works" | Trial-and-error isn't understanding |
-| "The fix works, tests pass, shipping it" (without walkthrough) | Coincidental correctness isn't confidence |
-| "It's too complex to explain line by line" | If you can't explain it, you can't fix it safely |
-| "I've seen this pattern before, it's always X" | Past pattern doesn't mean present root cause |
-| Fixing the symptom but not the root cause | The duck wants to know *why*, not just *what* |
-| "Quick fix now, proper fix later" | Later never comes. Fix it right. |
-| Pushing code you can't explain | The duck has one rule: explain or don't push |
+| Quack | Ask yourself... |
+|-------|----------------|
+| **1** | Can I state the intent/reality gap in one sentence? |
+| **2** | Did I trace every line, or did I skip "obvious" parts? |
+| **2** | At function calls — did I trace into them or assume? |
+| **2** | At variables — did I state actual values or guessed values? |
+| **3** | Is this the root cause, or am I describing a symptom? |
+| **3** | Can I explain the root cause to someone who's never seen this code? |
+| **4** | Could someone implement my fix from just my English description? |
+| **4** | Does my fix address the quack point directly? |
+| **5** | At the quack point — does X genuinely equal Y now? |
+| **5** | Would reverting my fix bring the original bug back? |
+
+## Anti-Patterns the Duck Silently Judges You For
+
+The duck doesn't say anything. But if you do any of these, the duck
+session is invalid and you must start over:
+
+| You did this... | Why it's not rubber ducking |
+|-----------------|---------------------------|
+| Jumped to a fix without Quacks 1-3 | You guessed instead of explaining |
+| Said "let me try X and see if it works" | Trial-and-error is not understanding |
+| Said "tests pass, shipping it" without walkthrough | Coincidental correctness is not confidence |
+| Said "this part's too complex to explain" | If you can't explain it, you can't fix it safely |
+| Said "I've seen this before, it's always X" | Past patterns don't prove present root cause |
+| Fixed the symptom instead of the root cause | The duck heard you skip the quack point |
+| Said "quick fix now, proper fix later" | Later never comes. The duck knows this. |
+| Pushed code you couldn't explain to the duck | The one rule. You broke the one rule. |
 
 ## Integration with Other Skills
 
-- **After `systematic-debugging`** → Use rubber-duck-debugging before pushing the fix
-- **After `test-driven-development`** → Explain the test rationale to the duck
+- **After `systematic-debugging`** → Rubber-duck your fix before pushing
+- **After `test-driven-development`** → Explain your test rationale to the duck
 - **Before `verification-before-completion`** → Duck walkthrough is a pre-verification gate
-- **With `requesting-code-review`** → Duck explanation becomes your PR description
+- **With `requesting-code-review`** → Your duck explanation becomes your PR description
 
 ## Output Format
 
-When using this skill, structure your response as:
+When using this skill, structure your response as a rubber duck session.
+This is YOUR explanation TO the duck — the duck's contribution is silence:
 
 ```
 🦆 RUBBER DUCK SESSION
 ━━━━━━━━━━━━━━━━━━━━━━
 
-📋 THE PROBLEM
+📋 THE PROBLEM (Quack 1)
+  "Duck, here's what's going on..."
   Expected: [what code should do]
   Actual:   [what code does instead]
-  Evidence: [how you know]
+  Evidence: [how I know]
 
-🔍 CODE WALKTHROUGH
-  [line-by-line trace with "supposed to" vs "actually does"]
+🔍 CODE WALKTHROUGH (Quack 2)
+  "Let me walk you through this, line by line..."
+  [line-by-line trace: "supposed to do X" → "actually does Y"]
 
-💡 THE QUACK POINT
+💡 THE QUACK POINT (Quack 3)
+  "Wait — I just said... but that's not right."
   Discrepancy: [where X ≠ Y]
-  False assumption: [what was wrong]
+  False assumption: [what I got wrong and why]
   Root cause: [the real issue]
 
-🔧 THE FIX
+🔧 THE FIX (Quack 4)
+  "Here's what I'm going to change, duck..."
   Change: [plain English description]
-  Why it works: [addresses root cause because...]
+  Why it works: [connects to root cause]
   Side effects: [what else is affected]
+  Not changing: [what's safe to leave alone]
 
-✅ VERIFICATION
-  [Re-walked code path with fix]
+✅ VERIFICATION (Quack 5)
+  "Let me walk through it again with the fix..."
+  [Re-traced code path — X = Y now at quack point]
   Tests: [pass/fail status]
   Confidence: [level + reason]
 
@@ -205,26 +243,46 @@ When using this skill, structure your response as:
 
 ## Why This Works
 
-Rubber duck debugging exploits a cognitive phenomenon: **explaining forces
-understanding**. When you explain code to an external entity (even an
-inanimate duck), your brain switches from "recognition mode" (skimming,
-pattern-matching, assuming) to "generation mode" (constructing, verifying,
-proving). Bugs hide in the gap between what you *recognize* and what you
-can *generate*.
+Rubber duck debugging exploits five cognitive phenomena:
+
+| Mechanism | What happens |
+|-----------|-------------|
+| **Self-explanation effect** | Generating explanations reveals gaps that passive thinking hides (Chi et al.) |
+| **Cognitive offloading** | Externalizing your logic frees working memory for insight |
+| **Psychological distance** | Explaining to an "other" — even an inanimate one — shifts you from recognition mode to generation mode |
+| **Metacognition** | Verbalizing activates thinking-about-your-thinking, exposing hidden assumptions |
+| **No interruption** | Unlike a human, the duck never derails your train of thought with premature suggestions |
+
+The duck doesn't need to be smart. The duck doesn't need to respond.
+The act of **thorough, committed self-explanation to a silent audience**
+is what catches bugs. This is why Jeff Atwood observed that Stack Overflow
+users solve their own problems while *writing* the question — before anyone
+answers. The explanation IS the debugging.
 
 For AI code agents specifically:
 - Prevents "confident but wrong" fixes that pass tests accidentally
-- Forces root cause analysis instead of symptom patching
-- Creates an auditable explanation trail for every fix
-- Catches false assumptions that internal reasoning misses
-- Reduces fix-revert-fix cycles by getting it right the first time
+- Forces the agent to generate a complete explanation rather than pattern-match
+- Creates an auditable trail showing the agent understood what it changed
+- The silent duck can't be gamed — the agent either explained or it didn't
+- Catches the gap between "this looks right" and "I can prove this is right"
+
+## References
+
+- Hunt, Andrew; Thomas, David (1999). *The Pragmatic Programmer*. Addison Wesley. p. 95.
+- Atwood, Jeff (2012). "Rubber Duck Problem Solving." codinghorror.com.
+- rubberduckdebugging.com — "The rubber duck debugging method."
+- Wikipedia: "Rubber duck debugging" — overview and cognitive science references.
+- Byrd et al. (2023). "Tell Us What You Really Think: A Think Aloud Protocol
+  Analysis." *Journal of Intelligence*, 11(4):76.
 
 ## Quick Reference
 
-| Quack | Do | Don't |
-|-------|-----|-------|
-| 🦆 1 | State intent vs reality clearly | Skip to proposing fixes |
-| 🦆 2 | Trace every line, cross every boundary | Hand-wave through "obvious" sections |
-| 🦆 3 | Identify the false assumption | Describe the symptom as the cause |
-| 🦆 4 | Explain fix in plain English first | Jump straight to code changes |
-| 🦆 5 | Re-walk with fix, check regressions | Trust "tests pass" without understanding |
+| Quack | You explain to the duck... | The duck does... |
+|-------|---------------------------|-----------------|
+| 🦆 1 | What's wrong — intent vs reality | Nothing |
+| 🦆 2 | The code, line by line | Nothing |
+| 🦆 3 | The moment your explanation broke | Nothing |
+| 🦆 4 | What you'll fix and why | Nothing |
+| 🦆 5 | That the fix works, re-traced | Nothing |
+
+The duck never talks. That's the whole point.

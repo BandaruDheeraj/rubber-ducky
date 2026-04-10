@@ -15,7 +15,7 @@ assumptions and logical gaps before they reach production.
 
 | Agent | Description |
 |-------|-------------|
-| `rubber-ducky` | The rubber duck itself — asks probing questions until you find the bug |
+| `rubber-ducky` | The rubber duck — a silent audience that forces self-explanation |
 
 ## The Method
 
