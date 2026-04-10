@@ -1,0 +1,34 @@
+{
+  "name": "rubber-ducky",
+  "metadata": {
+    "description": "Rubber duck debugging for AI code agents — forces step-by-step code explanation before pushing fixes. Based on the classic method from The Pragmatic Programmer.",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "BandaruDheeraj",
+    "url": "https://github.com/BandaruDheeraj"
+  },
+  "plugins": [
+    {
+      "name": "rubber-ducky",
+      "source": "./plugins/rubber-ducky",
+      "description": "Rubber duck debugging skill and agent for AI code agents. Forces agents to explain their code line-by-line to a rubber duck before pushing fixes, catching false assumptions and logical gaps before they reach production.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Dheeraj Bandaru",
+        "url": "https://github.com/BandaruDheeraj"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/BandaruDheeraj/rubber-ducky",
+      "keywords": [
+        "debugging",
+        "rubber-duck",
+        "code-review",
+        "pre-push",
+        "quality-gate",
+        "explanation-driven",
+        "pragmatic-programmer"
+      ]
+    }
+  ]
+}
