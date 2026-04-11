@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Rubber Ducky for GitHub Copilot CLI — One-line installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/install.sh | bash
 
 REPO="BandaruDheeraj/rubber-ducky"
 COPILOT_HOME="${COPILOT_HOME:-$HOME/.copilot}"

@@ -41,46 +41,49 @@ explanation, not the response.
 
 ## Installation
 
+**Note:** Installation differs by platform.
+
 ### GitHub Copilot CLI
 
-```bash
-# One-line install (macOS/Linux)
-curl -fsSL https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/main/install.sh | bash
+Tell your agent:
 
-# Windows (PowerShell)
-irm https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/main/install.ps1 | iex
+```
+Fetch and follow instructions from https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/INSTALL.md
 ```
 
-Or install manually:
+Or use the one-line installer:
 
 ```bash
-# Clone
-git clone https://github.com/BandaruDheeraj/rubber-ducky.git ~/.copilot/marketplace-cache/rubber-ducky
+# macOS/Linux
+curl -fsSL https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/install.sh | bash
 
-# Symlink skills
-mkdir -p ~/.copilot/skills
-ln -s ~/.copilot/marketplace-cache/rubber-ducky/plugins/rubber-ducky/skills/rubber-duck-debugging ~/.copilot/skills/rubber-duck-debugging
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/install.ps1 | iex
+```
 
-# Symlink agent
-mkdir -p ~/.copilot/agents
-ln -s ~/.copilot/marketplace-cache/rubber-ducky/plugins/rubber-ducky/agents/rubber-ducky.md ~/.copilot/agents/rubber-ducky.md
+### Codex
+
+Tell Codex:
+
+```
+Fetch and follow instructions from https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/INSTALL.md
 ```
 
 ### Claude Code
 
 ```bash
-# From your project directory
-claude plugin add BandaruDheeraj/rubber-ducky
+/plugin install rubber-ducky@BandaruDheeraj/rubber-ducky
 ```
 
-### Sticky Note Environment
+### Any Other Agent
 
-Copy the skill into your team's shared environment:
+Tell your agent:
 
-```bash
-cp plugins/rubber-ducky/skills/rubber-duck-debugging/SKILL.md .sticky-note/environment/skills/rubber-duck-debugging.md
-cp plugins/rubber-ducky/agents/rubber-ducky.md .sticky-note/environment/agents/rubber-ducky.md
 ```
+Fetch and follow instructions from https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/INSTALL.md
+```
+
+**Detailed docs:** [INSTALL.md](INSTALL.md)
 
 ## Usage
 

@@ -1,5 +1,5 @@
 # Rubber Ducky for GitHub Copilot CLI — Windows Installer
-# Usage: irm https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/main/install.ps1 | iex
+# Usage: irm https://raw.githubusercontent.com/BandaruDheeraj/rubber-ducky/master/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
 
