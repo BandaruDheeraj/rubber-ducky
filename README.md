@@ -2,8 +2,6 @@
   <img src="https://github.com/user-attachments/assets/b1866595-9a5a-42b3-bd40-073e5b656832" alt="Rubber Ducky header image" />
 </p>
 
-<h1 align="center">🦆 Rubber Ducky</h1>
-
 <p align="center">
   <strong>Explain your code to a rubber duck, line by line.</strong><br />
   <em>— The Pragmatic Programmer (1999)</em>
