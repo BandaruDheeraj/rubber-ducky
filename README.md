@@ -73,7 +73,8 @@ Fetch and follow instructions from https://raw.githubusercontent.com/BandaruDhee
 ### Claude Code
 
 ```bash
-/plugin install rubber-ducky@BandaruDheeraj/rubber-ducky
+/plugin marketplace add BandaruDheeraj/rubber-ducky
+/plugin install rubber-ducky@rubber-ducky
 ```
 
 ### Any Other Agent

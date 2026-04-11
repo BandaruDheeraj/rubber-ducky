@@ -76,8 +76,11 @@ through feedback.
 
 ## Claude Code
 
+Register the marketplace, then install:
+
 ```bash
-/plugin install rubber-ducky@BandaruDheeraj/rubber-ducky
+/plugin marketplace add BandaruDheeraj/rubber-ducky
+/plugin install rubber-ducky@rubber-ducky
 ```
 
 Or manually clone and symlink into your `.claude/skills/` directory.
