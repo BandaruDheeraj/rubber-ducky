@@ -1,14 +1,17 @@
-# 🦆 Rubber Ducky
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b1866595-9a5a-42b3-bd40-073e5b656832" alt="Rubber Ducky header image" />
+</p>
 
-> **"Explain your code to a rubber duck, line by line."**
-> — *The Pragmatic Programmer* (1999)
+<h1 align="center">🦆 Rubber Ducky</h1>
 
-Rubber duck debugging skill and agent for AI code agents (GitHub Copilot CLI,
-Claude Code, and any tool that supports the superpowers plugin format).
+<p align="center">
+  <strong>Explain your code to a rubber duck, line by line.</strong><br />
+  <em>— The Pragmatic Programmer (1999)</em>
+</p>
 
-**Forces agents to explain their code step-by-step before pushing fixes** —
-catching false assumptions, logical gaps, and root cause misidentification
-before they reach production.
+Rubber duck debugging skill and agent for AI code agents (GitHub Copilot CLI, Claude Code, and any tool that supports the superpowers plugin format).
+
+**Force agents to explain their code step-by-step before pushing fixes** — catching false assumptions, logical gaps, and root cause misidentification before they reach production.
 
 ## Why
 
